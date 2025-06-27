@@ -1,0 +1,61 @@
+.org 0x1000
+.data @ data segment 
+@ variable declaration
+a: .space 1 @ int a => reserved 1 byte space
+
+/*.align 2 @ Move to the next 2-byte aligned address
+test: .hword 1*/
+
+b: .byte 5 @ int b = 5 => use 1 byte space
+.equ k, 5 @ const k = 5
+arr: .space 6 @ int arr [6] => reserve 6 bytes space
+arr1: .word 1,2,3 @ int arr1 [3] = {1,2,3} => 
+.equ arr1_len, . - arr1 @ const arr1_len
+ch: .hword 'A' @ char ch
+str: .byte 'B','C','D', 0 @ char str = {'B','C', 'D', '\0'}
+str1: .asciz "Hello" @ string str1 = "Hello"
+.equ str_len, . - str1 @ const str_len
+d: .byte 6
+
+.text
+.global _start
+_start:
+
+	@ const
+	mov r2, #k
+	mov r3, #arr1_len
+	mov r4, #str_len
+	
+	@ load the value of a
+	ldr r0, =a
+	ldrb r1, [r0]
+	
+	@ load the value of test
+	/*ldr r0, =test
+	ldrh r1, [r0]*/
+	
+	@ load the value of b
+	ldr r0, =b
+	ldrb r1, [r0]
+	
+	@ load the value of arr
+	ldr r0, =arr
+	ldrb r1, [r0]
+	
+	@ load the value of arr1
+	ldr r0, =arr1
+	ldr r1, [r0]
+	
+	@ load the value of ch
+	ldr r0, =ch
+	ldrh r1, [r0]
+	
+	@ load the value of str
+	ldr r0, =str
+	ldrb r1, [r0]
+	
+	@ load the value of str1
+	ldr r0, =str1
+	ldrb r1, [r0]
+	
+	

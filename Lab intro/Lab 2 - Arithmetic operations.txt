@@ -1,0 +1,28 @@
+.org 0x1000 @ program start at memory address 1000
+.data @ data segment 
+.text @ code segment
+.global _start
+
+_start:
+
+	mov r0, #07     @ Decimal is 7
+	mov r1, #0b1    @ Binary 0b1
+	mov r2, #0x2    @ Hexadecimal 0x2
+	
+	@ Arithmetic Operations
+	add r3, r1, r2 @ r3 = r1 + r2 = 1 + 2 = 3
+	sub r3, r2, #1
+	mul r4, r1, r2
+	
+	mov r8, #0xfffffffe
+	adds r5, r4, r8
+	muls r0, r1, r6
+	subs r6, r5, r6
+
+
+	mov r7, #1 @ exit program
+	swi 0     @ system call
+
+
+	
+	

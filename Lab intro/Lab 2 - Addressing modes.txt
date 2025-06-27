@@ -1,0 +1,39 @@
+@ Addressing 
+.org 0x1000 // program start at memory address 1000
+.data // data segment
+var1: .word 5
+arr: .word 1, 2, 3, 4, 5, 6
+
+.text // code segment
+.global _start
+_start:                                                            
+	@ immediate addressing
+	mov r0, #2
+	
+	@ registered direct addressing
+	mov r1, r0
+
+	@ registered indirect addressing
+	ldr r4, =var1 @ Load the address of var1 into r4
+	ldr r5, [r4] @ Load the value of var1 (pointed to by r4) into r5
+	
+	ldr r4, =arr @ Load the address of the first element of the array 'arr' into r4
+	ldr r1, [r4] @ Load the value at arr[0] into r1
+	
+	ldr r2, [r4, #4] @ load the next value of the array
+	
+	
+	@ Pre increment
+	ldr r2, [r4, #8]! @ r4 = r4 + 8; then load the value of arr[r4+8] into the r2 register
+
+
+	@ Post increment
+	ldr r2, [r4], #8  @ Load the value of arr[r4] into the r2 register; then r4 = r4 + 8
+	
+	
+	@ end program 
+	mov r7, #0x1
+	swi 0
+	
+	
+	

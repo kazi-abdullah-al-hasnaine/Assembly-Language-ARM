@@ -1,0 +1,69 @@
+@ nested if to find the maximum number
+.org 0x100
+.data
+
+a: .word 8
+b: .word 6
+c: .word 5
+
+.text
+.global _start
+_start:
+
+	ldr r0, =a
+	ldr r0, [r0]  @ r0 = 3
+	ldr r1, =b
+	ldr r1, [r1]  @ r1 = 4
+	ldr r2, =c
+	ldr r2, [r2]  @ r2 = 5
+	
+	@ compare between a and b
+	cmp r0, r1     @ r0>r1  => if(a>b)
+	bge check_c    @ jump if a>=b
+	cmp r1, r2     @ r1>r2  => if(b>c)
+	bge b_largest  @ jump if b>=c
+	mov r8, r2     @ else c is the largest
+	b exit
+	
+check_c:
+	cmp r0, r2     @ if (a >= c)
+	bge a_largest  @ jump if a>=c
+	mov r8, r2     @ else c is the largest
+	b exit
+	
+a_largest:
+	mov r8, r0     @ a is the largest
+	b exit
+	
+b_largest:
+	mov r8, r1     @ b is the largest
+	b exit
+	
+exit:
+	mov r7, #1
+	swi 0
+
+.end
+
+/*
+int main()
+{
+    int c = 10, b = 22, a = 9;
+
+    if (a >= b) {
+        if (a >= c)
+            printf("%d is the largest number.", a);
+        else
+            printf("%d is the largest number.", c);
+    }
+    else {
+        if (b >= c)
+            printf("%d is the largest number.", b);
+        else
+            printf("%d is the largest number.", c);
+    }
+
+    return 0;
+}
+*/
+	

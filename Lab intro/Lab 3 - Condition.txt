@@ -1,0 +1,42 @@
+.org 0x1000
+.data
+a: .word 5
+b: .word 6
+.text
+.global _start
+_start:
+	@ condition
+	/*
+	>   BGT
+	<   BLT
+	>=  BGE
+	<=  BLE
+	==  BEQ
+	!=  BNE
+	*/
+	
+	@load a
+	ldr r0, =a
+	ldr r1, [r0] @ r1 = 5
+	
+	@ load b
+	ldr r0, =b
+	ldr r2, [r0] @ r2 = 6
+	
+
+	cmp r1, r2 @ if(r1>r2) => r1-r2
+	bgt a_greater @ r1>r2 => jump a_greater
+	mov r5, r2    @ r5 = r2 (greater value)
+	b exit
+	
+a_greater:
+	mov r5, r1    @ r5 = r1 (greater value)
+	b exit
+	
+exit: 
+	mov r7, #1
+	swi 0
+
+	
+	
+	

@@ -1,0 +1,51 @@
+.org 0x1000
+.data
+.text
+.global _start
+_start:
+
+	@ Logical Shift and Rotaion
+	mov r0, #10     @ 0000 1010 => 10
+	lsl r0, #1      @ 0001 0100 => 20
+	
+	mov r0, #10     @ 0000 1010 => 10
+	lsr r0, #1      @ 0000 0101 => 5
+	
+	mov r0, #11     @ 0000 1011 => 11
+	ror r0, #1      @ 1000 0101 => 85
+	
+
+	/*ARM does not have a ROL (Rotate Left) instruction because 
+	ROL can be achieved using the ROR instruction or using the 
+	combination of LSL, LSR and ORR.*/
+
+	@ ROL instruction using ROR 
+	@ ROL for 1 time
+	mov r0, #0x8000000b    @ 1000 0000 0000 1011
+    	ror r0, r0, #(32 - 1)  @ 0000 0000 0001 0111
+	
+	
+	/* ROL instruction using the combination of LSL, LSR and ORR.*/
+	@ ROL for 1 time
+	mov r0, #0x8000000b     @ 1000 0000 0000 1011 
+    	lsl r1, r0, #1     	   	@ 0000 0000 0001 0110
+    	lsr r2, r0, #31  		@ 0000 0000 0000 0001
+    	orr r0, r1, r2   		@ 0000 0000 0001 0111 
+	
+	@ ROL for 2 times
+	mov r0, #0xc000000b     @ 1100 0000 0000 1011 
+    	lsl r1, r0, #2     	   	@ 0000 0000 0010 1100
+    	lsr r2, r0, #(32 - 2)  	@ 0000 0000 0000 0011
+    	orr r0, r1, r2   		@ 0000 0000 0001 0111 
+	
+	@ logical operators
+	mov r0, #0xff    @ 1111 1111
+	mov r1, #0x16	 @ 0001 0110
+	
+	and r2, r1, r0   @ 0001 0110 => 16
+	orr r3, r1, r0   @ 1111 1111 => ff
+	eor r4, r1, r0   @ 1110 1001 => e9 => same==0
+	mvn r5, r1       @ 1110 1001 => e9 => not and move
+	
+	
+.end
